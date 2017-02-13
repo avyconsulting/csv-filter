@@ -1,0 +1,16 @@
+Given are two CSV files containing a list of transactions, where each transaction is uniquely identified
+by the SOURCE, ID and TYPE columns.
+
+The filter() method of the CsvFilter class has three parameters, where the first two are the URIs pointing to
+two input CSV files and the third one is a URI specifying where the output should be saved.
+
+Implement the filter() method of the CsvFilter class, so that the output file contains a set of the unique transactions
+appearing in the two input files ordered by the timestamp in ascending order. You should not modify the signature of the method.
+
+Your solution will be graded based on the correctness, simplicity and clarity of the code and compliance with
+the best practices. You should not spend more than one to two hours on this assignment.
+
+
+
+**** Special note 
+1. pom.xml is updated to have junit dependency & source compile target is java 8
