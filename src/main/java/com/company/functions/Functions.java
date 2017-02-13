@@ -9,6 +9,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.company.csvfilter.Transaction;
+import com.company.exceptions.CsvFileParsingException;
 
 /**
  * Functions
@@ -39,7 +40,19 @@ public class Functions {
      */
     public static final List<Transaction> collectAsTransactions(URI inputFile) throws IOException {
         return Files.lines(Paths.get(inputFile))
-                        .skip(1).map(toTransaction)
+                        .skip(1)
+                        .map(toTransaction)
                         .collect(Collectors.toList());
     }
+    
+    public static final Function<URI, Boolean> isEmpty = file -> {
+        try {
+            if (Paths.get(file).toFile().exists() && Files.lines(Paths.get(file)).count() > 0) {
+                return Boolean.FALSE;
+            }
+        } catch (IOException e) {
+            throw new CsvFileParsingException(e);
+        }
+        return Boolean.TRUE;
+    };
 }

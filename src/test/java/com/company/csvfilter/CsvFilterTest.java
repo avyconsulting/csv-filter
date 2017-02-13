@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
+import org.junit.After;
 import org.junit.Test;
 
 import com.company.exceptions.CsvFileParsingException;
@@ -14,6 +16,9 @@ import com.company.exceptions.CsvFileParsingException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import static com.company.functions.Functions.isEmpty;
 
 public class CsvFilterTest {
 
@@ -56,4 +61,21 @@ public class CsvFilterTest {
 
     }
 
+    @Test
+    public void shouldHandleEmptyFilesGracefully() throws Exception {
+
+        final URI inputFile1 = CsvFilterTest.class.getClassLoader().getResource("input/empty-file1.csv").toURI();
+        final URI inputFile2 = CsvFilterTest.class.getClassLoader().getResource("input/empty-file2.csv").toURI();
+
+        underTest.filter(inputFile1, inputFile2, Paths.get("output.csv").toUri());
+
+        Path path = Paths.get(Paths.get("output.csv").toUri());
+
+        assertTrue(Optional.of(path.toUri()).map(isEmpty).get());
+    }
+    
+    @After
+    public void after () {
+        output.delete();
+    }
 }
